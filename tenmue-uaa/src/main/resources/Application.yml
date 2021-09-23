@@ -1,0 +1,13 @@
+server:
+  port: 8085
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.8:8848
+  application:
+    name: uaa
+
+uaa:
+  exp-time: 2
+  secret: TW2*8@RFTqs9W@*vBlMIys0g#ijPUCtJrQEP6Pv8TxHYaTwlq&

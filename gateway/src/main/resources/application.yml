@@ -1,0 +1,58 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.8:8848
+    sentinel:
+      scg:
+        fallback:
+          mode: response
+          #response-status: 403
+          #response-body: 操作太频繁
+          response-body: '{"code":403,"mes":"限流了"}'
+      transport:
+        port: 8719 #应用与Sentinel控制台交互的端口，应用本地会起一个该端口占用的HttpServer
+        dashboard: 192.168.1.8:8849
+      datasource:
+        gw-flow: 
+          nacos: 
+            server-addr: 192.168.1.8:8848
+            data-id: ${spring.application.name}-gateway-flow
+            group-id: SENTINEL_GROUP
+            data-type: json
+            rule-type: gw-flow
+        gw-api-flow: 
+          nacos: 
+            server-addr: 192.168.1.8:8848
+            data-id: ${spring.application.name}-gateway-api
+            group-id: SENTINEL_GROUP
+            data-type: json
+            rule-type: gw-api-group
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+      routes:
+      - id: provider
+        uri: lb://service-provider
+        predicates:
+          - Path=/provider/**
+        filters:
+          - StripPrefix=1
+      - id: echo
+        uri: lb://service-consumer
+        predicates:
+          - Path=/echo/**
+        filters:
+          - StripPrefix=1 #其作用为，如请求为http://localhost:9090/echo/echo/123，那么转发后的url则为service-consumer/echo/123,意为去除一层path
+      - id: uaa
+        uri: lb://uaa
+        predicates:
+          - Path=/uaa/**
+        filters:
+          - StripPrefix=1
