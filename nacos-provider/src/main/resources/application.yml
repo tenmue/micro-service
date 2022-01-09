@@ -1,5 +1,3 @@
-server:
-  port: 8080
 spring:
   cloud:
     nacos:
@@ -17,5 +15,5 @@ spring:
             group-id: SENTINEL_GROUP
             data-type: json
             rule-type: flow
-  application:
-    name: service-provider
+#  application:
+#    name: service-provider
