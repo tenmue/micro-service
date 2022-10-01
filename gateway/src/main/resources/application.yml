@@ -6,7 +6,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.1.8:8848
+        server-addr: 192.168.1.12:81
     sentinel:
       scg:
         fallback:
@@ -20,18 +20,20 @@ spring:
       datasource:
         gw-flow: 
           nacos: 
-            server-addr: 192.168.1.8:8848
+            server-addr: 192.168.1.12:81
             data-id: ${spring.application.name}-gateway-flow
             group-id: SENTINEL_GROUP
             data-type: json
             rule-type: gw-flow
         gw-api-flow: 
           nacos: 
-            server-addr: 192.168.1.8:8848
+            server-addr: 192.168.1.12:81
             data-id: ${spring.application.name}-gateway-api
             group-id: SENTINEL_GROUP
             data-type: json
             rule-type: gw-api-group
+      filter:
+        enabled: false #参考https://github.com/alibaba/spring-cloud-alibaba/wiki/Sentinel#spring-cloud-gateway-%E6%94%AF%E6%8C%81
     gateway:
       discovery:
         locator:

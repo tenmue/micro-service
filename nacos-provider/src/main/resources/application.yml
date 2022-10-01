@@ -2,15 +2,15 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.1.8:8848
-    sentinel:
+        server-addr: 192.168.1.12:81
+    sentinel: #https://github.com/alibaba/spring-cloud-alibaba/wiki/Sentinel#%E9%85%8D%E7%BD%AE
       transport:
         port: 8719 #如果不配置的话，sentinel控制台会报错误(应用与Sentinel控制台交互的端口，应用本地会起一个该端口占用的HttpServer)
         dashboard: 192.168.1.8:8849
       datasource:
         flow: 
           nacos:
-            server-addr: 192.168.1.8:8848
+            server-addr: 192.168.1.12:81
             data-id: ${spring.application.name}-flow-rules
             group-id: SENTINEL_GROUP
             data-type: json
